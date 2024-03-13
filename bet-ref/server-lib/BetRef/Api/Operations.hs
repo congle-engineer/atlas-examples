@@ -53,7 +53,7 @@ placeBet refScript brp guess bet ownAddr mPreviousBetsUtxoRef = do
         <> mustHaveOutput GYTxOut
               { gyTxOutAddress = betAddr
               , gyTxOutValue = bet <> previousValue
-              , gyTxOutDatum = Just (datumFromPlutusData $ BetRefDatum ((pubKeyHashToPlutus pkh, guess) : previousGuesses) (valueToPlutus bet), GYTxOutDontUseInlineDatum)
+              , gyTxOutDatum = Just (datumFromPlutusData $ BetRefDatum ((pubKeyHashToPlutus pkh, guess) : previousGuesses) (valueToPlutus (bet <> previousValue)), GYTxOutDontUseInlineDatum)
               , gyTxOutRefS    = Nothing
               }
         <> isInvalidAfter betUntilSlot

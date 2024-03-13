@@ -87,10 +87,13 @@ mkBetRefValidator' (BetRefParams oraclePkh betUntil betReveal betStep) (BetRefDa
             ((signerPkh, guess) : previousGuesses == guessesOut) &&
         traceIfFalse
           "The current bet must be more than the previous bet by atleast `brpBetStep` amount"
-            (outValue `geq` (inValue <> previousBet <> betStep)) &&
+            (outValue `geq` (previousBet <> betStep)) &&
         traceIfFalse
           "Out bet is wrong"
-            (betOut == outValue - inValue)
+            (betOut == outValue) &&
+        traceIfFalse
+          "Data is inconsistent, previousBet must be equal inValue"
+            (previousBet == inValue)
 
     Take ->
       let

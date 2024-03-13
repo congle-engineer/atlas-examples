@@ -50,7 +50,6 @@ library betref-onchain
     , plutus-core
     , plutus-ledger-api
     , plutus-tx
-    , plutus-tx-plugin
 
 library betref-server-lib
   import:           common
@@ -63,7 +62,6 @@ library betref-server-lib
     BetRef.Api.Tx
   build-depends:
     , base
-    , aeson
     , betref:betref-onchain
     , atlas-cardano
     , swagger2
@@ -86,7 +84,6 @@ executable betref-server
     , betref:betref-server-lib
     , servant-server
     , transformers
-    , wai
     , wai-cors
     , http-types
     , warp
