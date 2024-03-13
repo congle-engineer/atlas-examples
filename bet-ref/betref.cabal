@@ -1,0 +1,92 @@
+cabal-version:      3.0
+name:               betref
+version:            0.1.0.0
+license:            NONE
+author:             congle-engineer
+maintainer:         congle-engineer@gmail.com
+build-type:         Simple
+extra-doc-files:    README.md
+
+common common
+  default-language:   GHC2021
+  default-extensions:
+    DataKinds
+    DeriveAnyClass
+    DerivingStrategies
+    DerivingVia
+    GADTs
+    LambdaCase
+    MultiWayIf
+    OverloadedStrings
+    RecordWildCards
+    RoleAnnotations
+    TypeFamilies
+    UndecidableInstances
+    ViewPatterns
+
+  ghc-options:        -Wall -Wincomplete-uni-patterns -Wunused-packages
+
+  ghc-options:        -fno-show-valid-hole-fits
+
+common plutus-ghc-options
+  ghc-options:
+    -fno-ignore-interface-pragmas -fno-omit-interface-pragmas
+    -Wno-partial-type-signatures
+
+  ghc-options:
+    -fexpose-all-unfoldings -fobject-code
+    -fplugin-opt PlutusTx.Plugin:defer-errors
+
+  ghc-options: -fplugin-opt PlutusTx.Plugin:target-version=1.0.0
+
+library betref-onchain
+  import:           common, plutus-ghc-options
+  hs-source-dirs:   onchain
+  exposed-modules:
+    BetRef
+    BetRef.Compiled
+  build-depends:
+    , base
+    , plutus-core
+    , plutus-ledger-api
+    , plutus-tx
+    , plutus-tx-plugin
+
+library betref-server-lib
+  import:           common
+  hs-source-dirs:   server-lib
+  exposed-modules:
+    BetRef.Api.Api
+    BetRef.Api.BetRef
+    BetRef.Api.Context
+    BetRef.Api.Operations
+    BetRef.Api.Tx
+  build-depends:
+    , base
+    , aeson
+    , betref:betref-onchain
+    , atlas-cardano
+    , swagger2
+    , servant-server
+    , servant-swagger
+    , containers
+    , text
+
+executable betref-server
+  import:           common
+  hs-source-dirs:   server
+  main-is:          server-main.hs
+  ghc-options:
+    -O2 -threaded -rtsopts -with-rtsopts=-T
+  build-depends:
+    , aeson-pretty
+    , base
+    , bytestring
+    , atlas-cardano
+    , betref:betref-server-lib
+    , servant-server
+    , transformers
+    , wai
+    , wai-cors
+    , http-types
+    , warp

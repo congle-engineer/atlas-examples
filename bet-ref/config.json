@@ -1,0 +1,6 @@
+{
+    "coreProvider": { "blockfrostKey": "preprodArpwrKykogdr4ZUGhHBF2LPCV3tpZjxo" },
+    "networkId": "testnet-preprod",
+    "logging": [{ "type": { "tag": "stderr" }, "severity": "Debug", "verbosity": "V2" }],
+    "utxoCacheEnable": false
+}
